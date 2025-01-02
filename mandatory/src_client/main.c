@@ -6,7 +6,7 @@
 /*   By: jarao-de <jarao-de@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:03:03 by jarao-de          #+#    #+#             */
-/*   Updated: 2025/01/02 17:31:59 by jarao-de         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:39:38 by jarao-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	get_server_pid(int argc, char **argv)
 		return (0);
 	}
 	server_pid = ft_atoi(argv[1]);
-	if (kill(server_pid, 0) == -1)
+	if (kill(server_pid, SIGUSR1) == -1 || kill(server_pid, SIGUSR2) == -1)
 	{
 		ft_putendl_fd("Error: No such process or permission denied.", 2);
 		return (0);
