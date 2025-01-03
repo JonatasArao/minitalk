@@ -52,3 +52,5 @@ $(OBJS_DIR)/server_%.o: $(SERVER_SRCS_DIR)/%.c $(HEADER) | $(OBJS_DIR)
 
 $(OBJS_DIR)/client_%.o: $(CLIENT_SRCS_DIR)/%.c $(HEADER) | $(OBJS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+.PHONY: all clean fclean re
