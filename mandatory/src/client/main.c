@@ -6,7 +6,7 @@
 /*   By: jarao-de <jarao-de@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:03:03 by jarao-de          #+#    #+#             */
-/*   Updated: 2025/01/03 15:01:21 by jarao-de         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:37:16 by jarao-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	send_char_signal(char c, pid_t server_pid)
 	int		bit_count;
 	int		signal;
 
-	bit_count = 7;
-	while (bit_count >= 0)
+	bit_count = 0;
+	while (bit_count < 8)
 	{
 		if ((c >> bit_count) & 1)
 			signal = SIGUSR2;
@@ -53,8 +53,18 @@ int	send_char_signal(char c, pid_t server_pid)
 			ft_putendl_fd("Error: Unable to send signal.", 2);
 			return (-1);
 		}
-		usleep(100);
-		bit_count--;
+		bit_count++;
+		usleep(500);
+	}
+	return (0);
+}
+
+int	send_string_signal(char *str, pid_t server_pid)
+{
+	while (*str)
+	{
+		if (send_char_signal(*str++, server_pid) == -1)
+			return (-1);
 	}
 	return (0);
 }
@@ -67,6 +77,5 @@ int	main(int argc, char **argv)
 	if (server_pid == -1)
 		return (1);
 	ft_putendl_fd("Minitalk Client", 1);
-	send_char_signal('A', server_pid);
-	return (0);
+	return (send_string_signal(argv[2], server_pid));
 }
