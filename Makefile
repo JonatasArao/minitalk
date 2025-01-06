@@ -12,17 +12,19 @@ HEADER_DIR = $(MINITALK_DIR)/inc
 HEADER = $(HEADER_DIR)/minitalk.h
 INCLUDES = -I$(HEADER_DIR) -I$(LIBFT_DIR)
 
-SERVER_SRCS_DIR = $(MINITALK_DIR)/src_server
-SERVER_SRCS_FILES = main.c
-SERVER_SRCS = $(addprefix $(SERVER_SRCS_DIR)/, $(SERVER_SRCS_FILES))
+SRC_DIR = $(MINITALK_DIR)/src
 
-CLIENT_SRCS_DIR = $(MINITALK_DIR)/src_client
-CLIENT_SRCS_FILES = main.c
-CLIENT_SRCS = $(addprefix $(CLIENT_SRCS_DIR)/, $(CLIENT_SRCS_FILES))
+SERVER_DIR = $(SRC_DIR)/server
+SERVER_FILES = main.c
+SERVER_SRCS = $(addprefix $(SERVER_DIR)/, $(SERVER_FILES))
+
+CLIENT_DIR = $(SRC_DIR)/client
+CLIENT_FILES = main.c
+CLIENT_SRCS = $(addprefix $(CLIENT_DIR)/, $(CLIENT_FILES))
 
 OBJS_DIR = $(MINITALK_DIR)/objs
-SERVER_OBJS = $(addprefix $(OBJS_DIR)/server_, $(CLIENT_SRCS_FILES:.c=.o))
-CLIENT_OBJS = $(addprefix $(OBJS_DIR)/client_, $(CLIENT_SRCS_FILES:.c=.o))
+SERVER_OBJS = $(addprefix $(OBJS_DIR)/server_, $(SERVER_FILES:.c=.o))
+CLIENT_OBJS = $(addprefix $(OBJS_DIR)/client_, $(CLIENT_FILES:.c=.o))
 
 all: $(SERVER_NAME) $(CLIENT_NAME)
 
@@ -47,10 +49,10 @@ $(LIBFT_LIB):
 $(OBJS_DIR):
 	mkdir -p $(OBJS_DIR)
 
-$(OBJS_DIR)/server_%.o: $(SERVER_SRCS_DIR)/%.c $(HEADER) | $(OBJS_DIR)
+$(OBJS_DIR)/server_%.o: $(SERVER_DIR)/%.c $(HEADER) | $(OBJS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJS_DIR)/client_%.o: $(CLIENT_SRCS_DIR)/%.c $(HEADER) | $(OBJS_DIR)
+$(OBJS_DIR)/client_%.o: $(CLIENT_DIR)/%.c $(HEADER) | $(OBJS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 .PHONY: all clean fclean re
