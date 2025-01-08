@@ -6,7 +6,7 @@
 /*   By: jarao-de <jarao-de@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:03:03 by jarao-de          #+#    #+#             */
-/*   Updated: 2025/01/07 14:19:59 by jarao-de         ###   ########.fr       */
+/*   Updated: 2025/01/08 07:29:38 by jarao-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ static pid_t	get_server_pid(int argc, char **argv)
 	return ((pid_t) server_pid);
 }
 
-void	receive_server_response(int sig)
+static void	receive_server_response(int sig)
 {
 	if (sig == SIGUSR1 || sig == SIGUSR2)
 		g_echo = sig;
 }
 
-int	timeout_server(int timeout)
+static int	timeout_server(int timeout)
 {
 	while (!g_echo && timeout > 0)
 	{
@@ -58,7 +58,7 @@ int	timeout_server(int timeout)
 	return (0);
 }
 
-int	send_char_signal(char c, pid_t server_pid)
+static int	send_char_signal(char c, pid_t server_pid)
 {
 	int		bit_count;
 	int		signal;

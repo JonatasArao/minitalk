@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jarao-de <jarao-de@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:04:37 by jarao-de          #+#    #+#             */
-/*   Updated: 2025/01/07 15:17:40 by jarao-de         ###   ########.fr       */
+/*   Updated: 2025/01/08 07:39:26 by jarao-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	collect_and_print_string(char c)
+static void	emit_str(char c)
 {
 	static char	*string = NULL;
 	char		c_string[2];
@@ -38,7 +38,7 @@ void	collect_and_print_string(char c)
 	}
 }
 
-void	receive_char_signal(int sig, siginfo_t *info, void *context)
+static void	receive_char_signal(int sig, siginfo_t *info, void *context)
 {
 	static char		c = 0;
 	static int		bit_count = 0;
@@ -53,13 +53,13 @@ void	receive_char_signal(int sig, siginfo_t *info, void *context)
 	bit_count++;
 	if (bit_count == 8)
 	{
-		collect_and_print_string(c);
+		emit_str(c);
 		c = 0;
 		bit_count = 0;
 	}
 	if (kill(client_pid, sig) == -1)
 	{
-		collect_and_print_string('\0');
+		emit_str('\0');
 		ft_putendl_fd("Error: client disconnected.", 2);
 		c = 0;
 		bit_count = 0;
